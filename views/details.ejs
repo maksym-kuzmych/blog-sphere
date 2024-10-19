@@ -1,0 +1,159 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body>
+    <%- include("./partials/nav.ejs") %>
+
+    <div class="details content">
+      <h2><%= blog.title %></h2>
+      <div id="blog-content" class="content">
+        <p><%= blog.body %></p>
+      </div>
+
+      <div class="search-container">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search in content..."
+        />
+        <button id="search-btn">Find</button>
+      </div>
+      <p id="result-message"></p>
+
+      <a class="delete" data-doc="<%= blog._id %>">
+        <img src="/trashcan.svg" alt="delete icon" />
+      </a>
+
+      <h3>Comments</h3>
+      <ul id="comments-section"></ul>
+
+      <div class="leave-comment">
+        <a href="/blogs/<%= blog._id %>/comment">Leave a Comment</a>
+      </div>
+    </div>
+
+    <%- include("./partials/footer.ejs") %>
+
+    <script>
+      const blogContentEl = document.getElementById("blog-content");
+      const originalText = blogContentEl.innerHTML;
+      const searchInput = document.getElementById("search-input");
+      const searchBtn = document.getElementById("search-btn");
+      const resultMessage = document.getElementById("result-message");
+
+      function boyerMooreSearch(text, pattern) {
+        const m = pattern.length;
+        const n = text.length;
+        const badChar = new Array(256).fill(-1);
+
+        for (let i = 0; i < m; i++) {
+          badChar[pattern.charCodeAt(i)] = i;
+        }
+
+        let s = 0;
+        const matches = [];
+        while (s <= n - m) {
+          let j = m - 1;
+          while (j >= 0 && pattern[j] === text[s + j]) j--;
+
+          if (j < 0) {
+            matches.push(s);
+            s += s + m < n ? m - badChar[text.charCodeAt(s + m)] : 1;
+          } else {
+            s += Math.max(1, j - badChar[text.charCodeAt(s + j)]);
+          }
+        }
+
+        return matches;
+      }
+
+      searchBtn.addEventListener("click", () => {
+        const pattern = searchInput.value.trim();
+        if (!pattern) {
+          resultMessage.textContent = "Please enter a search term.";
+          return;
+        }
+
+        blogContentEl.innerHTML = originalText;
+
+        const contentText = blogContentEl.innerText;
+        const matches = boyerMooreSearch(contentText, pattern);
+
+        if (matches.length > 0) {
+          resultMessage.textContent = `Found ${matches.length} match(es).`;
+          highlightMatches(matches, pattern.length);
+        } else {
+          resultMessage.textContent = "No matches found.";
+        }
+      });
+
+      function highlightMatches(indices, length) {
+        const contentText = blogContentEl.innerText;
+        let highlightedHTML = "";
+        let lastIndex = 0;
+
+        indices.forEach((index) => {
+          highlightedHTML += contentText.substring(lastIndex, index);
+          highlightedHTML += `<span class="highlight">${contentText.substring(
+            index,
+            index + length
+          )}</span>`;
+          lastIndex = index + length;
+        });
+
+        highlightedHTML += contentText.substring(lastIndex);
+        blogContentEl.innerHTML = highlightedHTML;
+      }
+    </script>
+    <script>
+      const blogId = "<%= blog._id %>";
+
+      // Fetch comments using AJAX
+      fetch(`/blogs/${blogId}/comments`)
+        .then((response) => response.json())
+        .then((comments) => {
+          const commentsSection = document.getElementById("comments-section");
+          commentsSection.innerHTML = renderComments(comments);
+        })
+        .catch((err) => console.error("Error fetching comments:", err));
+
+      // Recursive function to render comments and replies
+      function renderComments(comments) {
+        if (!comments || comments.length === 0) return ""; // Handle empty cases
+
+        // Build the HTML recursively
+        let html = "<ul>";
+        comments.forEach((comment) => {
+          html += `
+      <li>
+        <strong>${comment.commenter}:</strong> ${comment.comment}
+        <a href="/blogs/${comment.blogId}/comment?parentId=${comment._id}">Reply</a>
+    `;
+
+          // If this comment has replies, render them recursively inside a nested <ul>
+          if (comment.replies && comment.replies.length > 0) {
+            html += renderComments(comment.replies);
+          }
+
+          html += `</li>`; // Close the <li> for the current comment
+        });
+        html += "</ul>"; // Close the <ul> for this level
+
+        return html;
+      }
+
+      const trashcan = document.querySelector("a.delete");
+
+      trashcan.addEventListener("click", (e) => {
+        const endpoint = `/blogs/${trashcan.dataset.doc}`;
+
+        fetch(endpoint, {
+          method: "DELETE",
+        })
+          .then((response) => response.json())
+          .then((data) => (window.location.href = data.redirect))
+          .catch((err) => console.log(err));
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,326 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap");
+body {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+  font-family: "Noto Serif", serif;
+  max-width: 1200px;
+}
+p,
+h1,
+h2,
+h3,
+a,
+ul {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: #222;
+}
+
+/* nav & footer styles */
+nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  text-transform: uppercase;
+}
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+nav li {
+  list-style-type: none;
+  margin-left: 20px;
+}
+nav h1 {
+  font-size: 3em;
+}
+nav p,
+nav a {
+  color: #777;
+  font-weight: 300;
+}
+footer {
+  color: #777;
+  text-align: center;
+  margin: 80px auto 20px;
+}
+h2 {
+  margin-bottom: 25px;
+}
+h3 {
+  text-transform: capitalize;
+  margin-bottom: 8px;
+}
+.content {
+  margin-left: 20px;
+}
+
+/* index styles */
+.blogs a {
+  display: block;
+  margin: 40px 0;
+  padding-left: 30px;
+  border-left: 6px solid crimson;
+}
+.blogs a:hover h3 {
+  color: crimson;
+}
+
+/* details styles */
+.details {
+  position: relative;
+}
+
+.details .content {
+  justify-content: center;
+  margin: 0;
+}
+
+.details .content p {
+  font-family: "Georgia", serif; /* Classic font for readability */
+  font-size: 18px;
+  line-height: 1.6; /* Improves readability */
+  color: #333; /* Dark grey for better contrast */
+  margin: 12px 0; /* Spacing between paragraphs */
+  text-align: justify; /* Justified text for a polished look */
+  word-wrap: break-word; /* Ensure long words wrap properly */
+  background-color: #f9f9f9dc; /* Subtle background highlight */
+  padding: 15px; /* Padding around the text */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+.details .content p:hover {
+  background-color: #f1f1f1; /* Slightly darker on hover */
+}
+
+.delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 50%;
+  padding: 8px;
+}
+.delete:hover {
+  cursor: pointer;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* create styles */
+.create-blog form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+.create-blog input,
+.create-blog textarea {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px;
+}
+.create-blog label {
+  display: block;
+  margin-top: 24px;
+}
+textarea {
+  height: 120px;
+}
+.create-blog button {
+  min-width: 120px;
+  margin-top: 20px;
+  background: crimson;
+  color: white;
+  border-radius: 4px;
+  padding: 6px;
+  border: 0;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-blog button:hover {
+  background: rgba(220, 20, 60, 0.492);
+}
+
+.leave-comment a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.leave-comment a:hover {
+  background-color: #0056b3;
+}
+
+.comment-form-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.comment-form {
+  width: 40%;
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.comment-form h3 {
+  margin-bottom: 15px;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.comment-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-form input[type="text"],
+.comment-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: "Courier New", Courier, monospace;
+  resize: vertical;
+}
+
+.comment-form textarea {
+  min-height: 100px;
+}
+
+.comment-form button {
+  width: 120px;
+  padding: 10px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.comment-form button:hover {
+  background-color: #218838;
+}
+
+/* Base styles for the comments section */
+#comments-section {
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Styling the unordered list */
+#comments-section ul {
+  list-style: none; /* Remove bullet points */
+  padding-left: 0;
+  margin: 10px 0;
+}
+
+/* Base styles for each comment */
+#comments-section li {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  position: relative;
+}
+
+/* Indentation for child comments */
+#comments-section ul ul li {
+  margin-left: 20px; /* Indent child replies */
+  border-left: 2px solid #ccc; /* Vertical line to indicate nesting */
+  background-color: #f1f1f1;
+}
+
+/* Hover effect for comments */
+#comments-section li:hover {
+  background-color: #e9e9e9;
+}
+
+/* Commenter's name styling */
+#comments-section li strong {
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Reply link styling */
+#comments-section li a {
+  font-size: 0.9rem;
+  color: #007bff;
+  text-decoration: none;
+  margin-top: 5px;
+  display: inline-block;
+}
+
+#comments-section li a:hover {
+  text-decoration: underline;
+}
+
+.search-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+#search-input {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: box-shadow 0.3s;
+}
+
+#search-input:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+#search-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#search-btn:hover {
+  background-color: #0056b3;
+}
+
+#result-message {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.highlight {
+  background-color: yellow;
+  font-weight: bold;
+}

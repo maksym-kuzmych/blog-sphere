@@ -1,0 +1,54 @@
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body>
+    <%- include("./partials/nav.ejs") %>
+    <div class="comment-form-page content">
+      <div class="comment-form">
+        <h3>Leave a Comment</h3>
+        <form id="commentForm">
+          <input
+            type="text"
+            name="commenter"
+            placeholder="Your Name"
+            required
+          />
+          <textarea
+            name="comment"
+            placeholder="Your Comment"
+            required
+          ></textarea>
+          <input type="hidden" name="parentId" value="<%= parentId || '' %>" />
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <%- include("./partials/footer.ejs") %>
+
+    <script>
+      const blogId = "<%= blogId %>";
+
+      const commentForm = document.getElementById("commentForm");
+      commentForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(commentForm);
+        const data = Object.fromEntries(formData.entries());
+
+        fetch(`/blogs/${blogId}/comments`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            window.location.href = `/blogs/${blogId}`;
+          })
+          .catch((err) => console.log(err));
+      });
+    </script>
+  </body>
+</html>
